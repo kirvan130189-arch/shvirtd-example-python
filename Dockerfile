@@ -1,7 +1,5 @@
-FROM python:3.12
+FROM python:3.12-slim
 WORKDIR /app
-COPY requirements.txt ./
+COPY requirements.txt  main.py ./
 RUN pip install -r requirements.txt
-COPY main.py ./
-# Запускаем приложение с помощью uvicorn, делая его доступным по сети
 CMD [ "main.py"] 
