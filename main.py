@@ -44,7 +44,7 @@ async def lifespan(app: FastAPI):
 # Создаем экземпляр FastAPI с использованием lifespan
 app = FastAPI(
     title="Shvirtd Example FastAPI",
-    description="Учебный проект, FastAPI+Docker.",
+    description="Учебный проект!!!!, FastAPI+Docker.",
     version="1.0.0",
     lifespan=lifespan
 )
