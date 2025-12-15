@@ -1,6 +1,6 @@
 FROM python:3.12-slim
 WORKDIR /shvirtdexamle-python
-COPY reqiirments.txt ./
+COPY requirments.txt ./
 RUN pip install -r requirments.txt
 COPY main.py ./
 # Запускаем приложение с помощью uvicorn, делая его доступным по сети
