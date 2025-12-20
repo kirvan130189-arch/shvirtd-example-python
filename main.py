@@ -10,8 +10,8 @@ from typing import Optional
 # --- 1. Конфигурация ---
 # Считываем конфигурацию БД из переменных окружения
 db_host = os.environ.get('DB_HOST', '127.0.0.1')
-db_user = os.environ.get('DB_USER', 'root')
-db_password = os.environ.get('DB_PASSWORD', 'Kir130189')
+db_user = os.environ.get('DB_USER', 'app')
+db_password = os.environ.get('DB_PASSWORD', 'very_strong')
 db_name = os.environ.get('DB_NAME', 'example')
 
 @asynccontextmanager
