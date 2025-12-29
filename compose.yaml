@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.python
+    restart: always
+    networks:
+      backend:
+        ipv4_address: 172.20.0.5
+    environment:
+      DB_HOST: db
+      DB_NAME: virtd
+      DB_USER: app
+      DB_PASSWORD: QwErTy1234
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8
+    restart: always
+    networks:
+      backend:
+        ipv4_address: 172.20.0.10
+    environment:
+      MYSQL_ROOT_PASSWORD: YtReWq4321
+      MYSQL_DATABASE: virtd
+      MYSQL_USER: app
+      MYSQL_PASSWORD: QwErTy1234
+
+networks:
+  backend:
+    external: true
