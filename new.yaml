@@ -1,0 +1,67 @@
+services:
+  dbms:
+    container_name: dbms
+    image: postgres:15
+#    image: postgis/postgis:17-3.5
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: $DB_USER
+      POSTGRES_PASSWORD: $DB_PASSWORD
+      POSTGRES_DB: $DB_NAME
+    volumes:
+      - ./pg:/var/lib/postgresql/data
+    ports:
+      - 5432:5432 # For debugging
+
+  app:
+    container_name: app
+    pull_policy: always
+    image: $DOCKER_REPO:v2.1b
+
+    env_file:
+      - .env_app
+
+    environment:
+#      NODE_ENV: production
+      POSTGRESS_HOST: $DB_HOST
+      POSTGRESS_PORT: $DB_PORT
+      POSTGRESS_USER: $DB_USER
+      POSTGRESS_PASSWORD: $DB_PASSWORD
+      POSTGRESS_DB: $DB_NAME
+
+#    build:
+#    dockerfile: Dockerfile
+#    context: .
+#    target: taxi:v1
+    depends_on: [ dbms ]
+    ports:
+      - 85:3000 # For debugging
+    restart: unless-stopped
+
+  traefik:
+#    image: traefik:latest
+#    image: traefik:v3.5.4
+    image: traefik:v3.6.2
+    container_name: traefik
+    restart: unless-stopped
+    volumes:
+      - ./traefik/var/lib:/var/lib/traefik
+      - ./traefik/var/log:/var/log
+      - ./traefik/etc:/etc/traefik:ro
+    ports:
+      - "80:80" # http://
+      - "443:443" #  https://
+      - "8080:8080" # http://localhost:8080/dashboard/#/
+#      - "62457:62457" # OpenBSD bastion open-ssh
+    command:
+      - "--configFile=/etc/traefik/static.yml"
+    environment:
+      LINODE_TOKEN: $LINODE_TOKEN # Linode for taxi
+
+#    dns:
+#      - 192.168.123.4
+    extra_hosts:
+      - "host:192.168.123.4"
+
+#volumes:
+#  pgdata:

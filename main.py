@@ -15,6 +15,23 @@ db_password = os.environ.get('DB_PASSWORD', 'very_strong')
 db_name = os.environ.get('DB_NAME', 'example')
 
 @asynccontextmanager
+async def lifespan(app: FastAPI):from datetime import datetime
+import os
+from contextlib import contextmanager, asynccontextmanager
+
+import mysql.connector
+from fastapi import FastAPI, Request, Depends, Header
+from typing import Optional
+
+
+# --- 1. Конфигурация ---
+# Считываем конфигурацию БД из переменных окружения
+db_host = os.environ.get('DB_HOST', '127.0.0.1')
+db_user = os.environ.get('DB_USER', 'app')
+db_password = os.environ.get('DB_PASSWORD', 'very_strong')
+db_name = os.environ.get('DB_NAME', 'example')
+
+@asynccontextmanager
 async def lifespan(app: FastAPI):
     # Код, который выполнится перед запуском приложения
     print("Приложение запускается...")
@@ -44,7 +61,7 @@ async def lifespan(app: FastAPI):
 # Создаем экземпляр FastAPI с использованием lifespan
 app = FastAPI(
     title="Shvirtd Example FastAPI",
-    description="Учебный проект!!!!, FastAPI+Docker.",
+    description="Учебный проект, FastAPI+Docker.",
     version="1.0.0",
     lifespan=lifespan
 )
